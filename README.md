@@ -18,30 +18,27 @@ This project implements a **data-driven classification framework** that learns t
 
 ## Repository Structure
 
-data/  
-example_final_feature_table.tsv  
 
-
-- **utils.py**  
+- `utils.py`  
   Helper functions for parsing arguments, detecting coordinate columns, dropping identifiers, and upsampling imbalanced training data.
 
-- **preprocessing.py**  
+- `preprocessing.py`
   Builds the feature matrix and target vector.  
   Normalizes scope labels, removes non-informative columns, optionally adds chromosome as a categorical feature, and constructs the sklearn preprocessing pipeline.
 
-- **model.py**  
+- `model.py`
   Contains factory functions for all machine-learning models:  
   Random Forest, Histogram Gradient Boosting, Multilayer Perceptron, and their soft-voting ensemble.
 
-- **evaluation.py**  
+- `evaluation.py`
   Computes performance metrics (accuracy, macro-F1, precision, recall, confusion matrix) and performs stratified cross-validation.  
   Saves all metrics in CSV and JSON format.
 
-- **plots.py**  
+- `plots.py`
   Generates all figures used for analysis and interpretation:  
   Spearman correlation heatmaps, Random Forest feature-importance barplots, and GC-content vs conservation boxplots.
 
-- **run_pipeline.py**  
+- `run_pipeline.py` 
   The pipeline orchestrator.  
   Reads command-line arguments, loads the data, runs preprocessing, trains the selected model, evaluates performance, and saves all outputs.
 
@@ -55,6 +52,9 @@ example_final_feature_table.tsv
   matplotlib  
   joblib  
 
+- `data/`  
+ 
+  - `sample_true_labels.csv`
 
 - **README.md**  
   Documentation describing the scientific motivation, pipeline structure, usage, and outputs.
@@ -65,7 +65,9 @@ example_final_feature_table.tsv
 
 ### 
 
-pip install numpy pandas scikit-learn matplotlib joblib
+```bash
+pip install pandas numpy scikit-learn matplotlib joblib
+```
 
 ---
 
@@ -82,10 +84,12 @@ Identifier columns (gene IDs, genomic start/end coordinates, bead coordinates, a
 
 ## Running the pipeline
 
-Always run from the repository root:
-
-export PYTHONPATH=src  
-python3 scripts/ml_pipeline.py --tsv final_feature_table.tsv --model rf  
+```bash
+python run_pipeline.py \
+  --tsv data/example_final_feature_table.tsv \
+  --model rf \
+  --outdir ML_OUT
+```
 
 ---
 
@@ -142,11 +146,3 @@ After a run, ML_OUT contains:
 - Figures in figures/ (heatmaps, barplots, GC vs conservation)
 
 ---
-
-## Reproducibility
-
-All random operations are controlled by the --random-state argument.  
-Given the same input data and seed, the pipeline produces deterministic results.
-
----
-
