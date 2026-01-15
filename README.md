@@ -46,7 +46,7 @@ The project is organized into clearly separated scripts and modules.
   Generates all figures used for analysis and interpretation:  
   Spearman correlation heatmaps, Random Forest feature-importance barplots, and GC-content vs conservation boxplots.
 
-- **cli.py**  
+- **run_pipeline.py**  
   The pipeline orchestrator.  
   Reads command-line arguments, loads the data, runs preprocessing, trains the selected model, evaluates performance, and saves all outputs.
 
