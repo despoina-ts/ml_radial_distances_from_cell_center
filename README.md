@@ -18,14 +18,9 @@ This project implements a **data-driven classification framework** that learns t
 
 ## Repository Structure
 
-The project is organized into clearly separated scripts and modules.
+data/  
+example_final_feature_table.tsv  
 
-### scripts/
-
-- **ml_pipeline.py**  
-  Thin launcher script that starts the full machine-learning pipeline by calling the command-line interface (CLI).
-
-### src/ml_radial/
 
 - **utils.py**  
   Helper functions for parsing arguments, detecting coordinate columns, dropping identifiers, and upsampling imbalanced training data.
@@ -34,7 +29,7 @@ The project is organized into clearly separated scripts and modules.
   Builds the feature matrix and target vector.  
   Normalizes scope labels, removes non-informative columns, optionally adds chromosome as a categorical feature, and constructs the sklearn preprocessing pipeline.
 
-- **models.py**  
+- **model.py**  
   Contains factory functions for all machine-learning models:  
   Random Forest, Histogram Gradient Boosting, Multilayer Perceptron, and their soft-voting ensemble.
 
@@ -52,8 +47,14 @@ The project is organized into clearly separated scripts and modules.
 
 ### Root files
 
-- **requirements.txt / environment.yml**  
-  Defines the Python environment required to run the pipeline.
+- **Python dependencies**
+
+  numpy  
+  pandas  
+  scikit-learn  
+  matplotlib  
+  joblib  
+
 
 - **README.md**  
   Documentation describing the scientific motivation, pipeline structure, usage, and outputs.
@@ -62,16 +63,9 @@ The project is organized into clearly separated scripts and modules.
 
 ## Installation
 
-### Option A — pip + virtual environment
+### 
 
-python3 -m venv .venv  
-source .venv/bin/activate  
-pip install -r requirements.txt  
-
-### Option B — conda
-
-conda env create -f environment.yml  
-conda activate ml_radial  
+pip install numpy pandas scikit-learn matplotlib joblib
 
 ---
 
