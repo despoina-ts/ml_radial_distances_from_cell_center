@@ -17,21 +17,21 @@ import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-from .utils import parse_float_list, parse_optional_int, upsample_train
-from .preprocessing import prepare_features_and_target, build_preprocessor
-from .models import (
+from utils import parse_float_list, parse_optional_int, upsample_train
+from preprocessing import prepare_features_and_target, build_preprocessor
+from models import (
     build_random_forest,
     build_hist_gradient_boosting,
     build_mlp,
     build_ensemble,
 )
-from .evaluation import (
+from evaluation import (
     evaluate_on_test,
     cross_validate_macro_f1,
     save_metrics_json,
     save_metrics_csvs,
 )
-from .plots import (
+from plots import (
     save_spearman_corr_heatmap,
     save_rf_importance_barplot,
     save_gc_conservation_boxplots,
@@ -51,7 +51,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
         description="Predict scope (central/intermediate/peripheral) using ML models."
     )
 
-    ap.add_argument("--tsv", required=True, help="Input TSV file containing features and target.")
+    ap.add_argument(
+        "--tsv",
+        required=True,
+        help="Input TSV file containing features and target.",
+    )
     ap.add_argument("--outdir", default="ML_OUT", help="Output directory.")
     ap.add_argument("--target", default="scope", help="Target column name.")
     ap.add_argument("--model", choices=["rf", "hgb", "mlp", "ens"], default="rf")
@@ -105,12 +109,16 @@ def main() -> None:
     try:
         args.hgb_max_depth = parse_optional_int(args.hgb_max_depth)
     except Exception as exc:
-        raise SystemExit(f"--hgb-max-depth must be integer or 'None'. Got: {args.hgb_max_depth}") from exc
+        raise SystemExit(
+            f"--hgb-max-depth must be integer or 'None'. Got: {args.hgb_max_depth}"
+        ) from exc
 
     df = pd.read_csv(args.tsv, sep="\t")
 
     x, y, numeric_cols, cat_cols, _ = prepare_features_and_target(
-        df, target_col=args.target, include_chrom=args.include_chrom
+        df,
+        target_col=args.target,
+        include_chrom=args.include_chrom,
     )
 
     x_train, x_test, y_train, y_test = train_test_split(
@@ -183,12 +191,15 @@ def main() -> None:
     pipeline = Pipeline([("pre", preprocessor), ("clf", clf)])
 
     if args.model == "mlp" and args.mlp_balance:
-        x_train, y_train = upsample_train(x_train, y_train, random_state=args.random_state)
+        x_train, y_train = upsample_train(
+            x_train,
+            y_train,
+            random_state=args.random_state,
+        )
 
     pipeline.fit(x_train, y_train)
 
     y_pred = pipeline.predict(x_test)
-
     metrics = evaluate_on_test(y_test, y_pred)
 
     print("\n=== TEST METRICS ===")
@@ -223,16 +234,13 @@ def main() -> None:
             else:
                 imps = clf.estimators_[0].feature_importances_
 
-            feature_names = (
-                numeric_cols
-                + (
-                    pipeline.named_steps["pre"]
-                    .named_transformers_["cat"]
-                    .named_steps["oh"]
-                    .get_feature_names_out(cat_cols).tolist()
-                    if cat_cols
-                    else []
-                )
+            feature_names = numeric_cols + (
+                pipeline.named_steps["pre"]
+                .named_transformers_["cat"]
+                .named_steps["oh"]
+                .get_feature_names_out(cat_cols).tolist()
+                if cat_cols
+                else []
             )
 
             if len(imps) == len(feature_names):
@@ -256,3 +264,7 @@ def main() -> None:
         print(f"[warn] GC×Conservation plots failed: {exc}")
 
     print(f"\nFigures saved in: {fig_dir}")
+
+
+if __name__ == "__main__":
+    main()
