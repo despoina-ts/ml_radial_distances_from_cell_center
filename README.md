@@ -3,7 +3,7 @@
 This repository contains a modular machine-learning pipeline developed as part of an MSc research project.  
 The goal is to predict **radial nuclear positioning categories** — **central**, **intermediate**, and **peripheral** — for genomic elements using sequence- and structure-derived features.
 
-The pipeline combines feature engineering, multiple machine-learning models, rigorous evaluation, and interpretable visualizations.
+The pipeline combines feature engineering, multiple machine-learning models, evaluation and visualizations.
 
 ---
 
@@ -55,9 +55,6 @@ This project implements a **data-driven classification framework** that learns t
 - `data/`  
  
   - `sample_true_labels.csv`
-
-- **README.md**  
-  Documentation describing the scientific motivation, pipeline structure, usage, and outputs.
 
 ---
 
