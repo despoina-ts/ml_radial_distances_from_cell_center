@@ -1,7 +1,7 @@
 # ml_radial_distances_from_cell_center
 
-This repository contains a modular machine-learning pipeline developed as part of an MSc research project.  
-The goal is to predict **radial nuclear positioning categories** — **central**, **intermediate**, and **peripheral** — for genomic elements using sequence- and structure-derived features.
+This repository contains a machine-learning pipeline developed as part of an MSc research project.  
+The goal is to predict radial nuclear positioning categories — **central**, **intermediate**, and **peripheral** — for genomic elements using sequence and structure-derived features.
 
 The pipeline combines feature engineering, multiple machine-learning models, evaluation and visualizations.
 
